@@ -28,9 +28,10 @@ class _EachCardPageState extends State<EachCardPage>
   PageController controller = PageController();
   bool textVisible = false;
   bool rateVisible = false;
+  bool _scrollEnabled = false;
 
-   double _rating = 0;
-   late String flashCardID;
+  double _rating = 0;
+  late String flashCardID;
 
   double padding = 15.0;
   late AnimationController _controller;
@@ -47,24 +48,19 @@ class _EachCardPageState extends State<EachCardPage>
     _controller.stop();
   }
 
-
   void nextPage() {
     if (text == "Next") {
       startAnimation();
 
-      if(ratingClicked == true){
-        flashcardService.rateFlashcard(
-            widget.subjectName,
-            getCurrentUser()!.uid,
-            flashCardID,
-            _rating.toInt());
-
+      if (ratingClicked == true) {
+        flashcardService.rateFlashcard(widget.subjectName,
+            getCurrentUser()!.uid, flashCardID, _rating.toInt());
       }
       setState(() {
+        _scrollEnabled = true;
         textVisible = false;
         isQuestion = true;
         rateVisible = false;
-
       });
 
       Future.delayed(const Duration(milliseconds: 1000), () {
@@ -78,6 +74,11 @@ class _EachCardPageState extends State<EachCardPage>
       controller.nextPage(
           duration: const Duration(milliseconds: 300),
           curve: Curves.fastEaseInToSlowEaseOut);
+      Future.delayed(const Duration(milliseconds: 1000), () {
+        setState(() {
+          _scrollEnabled = false;
+        });
+      });
     } else {
       Navigator.pop(context);
     }
@@ -95,16 +96,16 @@ class _EachCardPageState extends State<EachCardPage>
     });
 
     _controller = AnimationController(
-      duration: const Duration(milliseconds: 1000),
+      duration: const Duration(milliseconds: 2000),
       vsync: this,
     );
     _animation = Tween<double>(
-      begin: padding,
+      begin: 10,
       end: 0,
     ).animate(
       CurvedAnimation(
         parent: _controller,
-        curve: Curves.decelerate,
+        curve: Curves.easeInBack,
       ),
     );
     _controller.repeat(reverse: true);
@@ -145,9 +146,40 @@ class _EachCardPageState extends State<EachCardPage>
                       List<Flashcard> flashcards = snapshot.data!;
                       return Expanded(
                         child: PageView.builder(
+                          physics: _scrollEnabled
+                              ? AlwaysScrollableScrollPhysics()
+                              : NeverScrollableScrollPhysics(),
                           controller: controller,
                           itemCount: flashcards.length,
                           scrollDirection: Axis.horizontal,
+                          onPageChanged: (value) {
+                            if (text == "Next") {
+                              setState(() {
+                                textVisible = false;
+                                isQuestion = false;
+                                rateVisible = false;
+                              });
+
+                              startAnimation();
+
+                              if (ratingClicked == true) {
+                                flashcardService.rateFlashcard(
+                                    widget.subjectName,
+                                    getCurrentUser()!.uid,
+                                    flashCardID,
+                                    _rating.toInt());
+                              }
+
+                              Future.delayed(const Duration(milliseconds: 1000),
+                                  () {
+                                setState(() {
+                                  textVisible = true;
+                                  ratingClicked = false;
+                                  _rating = 0.0;
+                                });
+                              });
+                            }
+                          },
                           itemBuilder: (context, index) {
                             Flashcard flashcard = flashcards[index];
                             return Container(
@@ -180,104 +212,116 @@ class _EachCardPageState extends State<EachCardPage>
                                     });
                                   }
                                 },
-                                child: Stack(
-                                  alignment: Alignment.center,
-                                  children: [
-                                    Center(
-                                      child: RiveAnimation.asset(
-                                        "asset/riveAssets/card_flip.riv",
-                                        fit: BoxFit.fitWidth,
-                                        onInit: (artboard) {
-                                          StateMachineController controller =
-                                              RiveUtils.getRiverController(
-                                                  artboard);
-                                          trigger =
-                                              controller.findSMI("Trigger 1")
-                                                  as SMITrigger;
-                                        },
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Center(
-                                        child: Padding(
-                                          padding: const EdgeInsets.only(
-                                              bottom: 60.0),
-                                          child: SizedBox(
-                                            width: MediaQuery.of(context)
-                                                    .size
-                                                    .width -
-                                                130,
-                                            height: MediaQuery.of(context)
-                                                    .size
-                                                    .width -
-                                                250,
-                                            child: Center(
-                                              child: SingleChildScrollView(
-                                                child: Visibility(
-                                                    visible: textVisible,
-                                                    child: AnimatedBuilder(
-                                                      animation: _animation,
-                                                      builder:
-                                                          (context, child) {
-                                                        return Padding(
-                                                          padding:
-                                                              EdgeInsets.only(
-                                                                  bottom:
-                                                                      _animation
-                                                                          .value),
-                                                          child: Text(
-                                                            isQuestion
-                                                                ? flashcard
-                                                                    .question
-                                                                : flashcard
-                                                                    .answer,
-                                                            textAlign:
-                                                                TextAlign.start,
-                                                            style:
-                                                                const TextStyle(
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w400,
-                                                              fontSize: 16,
-                                                            ),
-                                                          ),
-                                                        );
-                                                      },
-                                                    )),
+                                child: AnimatedBuilder(
+                                    animation: _animation,
+                                    builder: (context, child) {
+                                      return Padding(
+                                        padding: EdgeInsets.only(
+                                            bottom: _animation.value),
+                                        child: Stack(
+                                          alignment: Alignment.center,
+                                          children: [
+                                            Center(
+                                              child: RiveAnimation.asset(
+                                                "asset/riveAssets/card_flip.riv",
+                                                fit: BoxFit.fitWidth,
+                                                onInit: (artboard) {
+                                                  StateMachineController
+                                                      controller = RiveUtils
+                                                          .getRiverController(
+                                                              artboard);
+                                                  trigger = controller
+                                                          .findSMI("Trigger 1")
+                                                      as SMITrigger;
+                                                },
                                               ),
                                             ),
-                                          ),
+                                            Padding(
+                                              padding:
+                                                  const EdgeInsets.all(8.0),
+                                              child: Center(
+                                                child: Padding(
+                                                  padding:
+                                                      const EdgeInsets.only(
+                                                          bottom: 60.0),
+                                                  child: SizedBox(
+                                                    width:
+                                                        MediaQuery.of(context)
+                                                                .size
+                                                                .width -
+                                                            140,
+                                                    height:
+                                                        MediaQuery.of(context)
+                                                                .size
+                                                                .width -
+                                                            250,
+                                                    child: Center(
+                                                      child:
+                                                          SingleChildScrollView(
+                                                        child: Visibility(
+                                                            visible:
+                                                                textVisible,
+                                                            child: Padding(
+                                                              padding:
+                                                                  EdgeInsets
+                                                                      .only(
+                                                                left: 10,
+                                                                right: 10,
+                                                                    bottom: 10
+                                                              ),
+                                                              child: Text(
+                                                                isQuestion
+                                                                    ? flashcard
+                                                                        .question
+                                                                    : flashcard
+                                                                        .answer,
+                                                                textAlign:
+                                                                    TextAlign
+                                                                        .start,
+                                                                style:
+                                                                    const TextStyle(
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w400,
+                                                                  fontSize: 16,
+                                                                ),
+                                                              ),
+                                                            )),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                            Visibility(
+                                              visible: rateVisible,
+                                              child: Positioned(
+                                                bottom: 1,
+                                                child: RatingBar.builder(
+                                                  initialRating: _rating,
+                                                  minRating: 1,
+                                                  direction: Axis.horizontal,
+                                                  allowHalfRating: false,
+                                                  itemCount: 5,
+                                                  itemSize: 50.0,
+                                                  itemBuilder: (context, _) =>
+                                                      Image.asset(
+                                                          "asset/images/star.png"),
+                                                  onRatingUpdate: (rating) {
+                                                    setState(() {
+                                                      _rating = rating;
+                                                      flashCardID =
+                                                          flashcard.flashCardId;
+                                                      ratingClicked = true;
+                                                    });
+                                                  },
+                                                ),
+                                              ),
+                                            ),
+                                          ],
                                         ),
-                                      ),
-                                    ),
-                                    Visibility(
-                                      visible: rateVisible,
-                                      child: Positioned(
-                                        bottom: 1,
-                                        child: RatingBar.builder(
-                                          initialRating: _rating,
-                                          minRating: 1,
-                                          direction: Axis.horizontal,
-                                          allowHalfRating: false,
-                                          itemCount: 5,
-                                          itemSize: 50.0,
-                                          itemBuilder: (context, _) =>
-                                              Image.asset(
-                                                  "asset/images/star.png"),
-                                          onRatingUpdate: (rating) {
-                                            setState(() {
-                                              _rating = rating;
-                                              flashCardID = flashcard.flashCardId;
-                                              ratingClicked = true;
-                                            });
-
-                                          },
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
+                                      );
+                                    }),
                               ),
                             );
                           },

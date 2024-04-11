@@ -50,7 +50,7 @@ class _SubjectPageState extends State<SubjectPage> {
       builder: (BuildContext context) {
         return AlertDialog(
           title: Text("Confirm Delete"),
-          content: Text("Are you sure you want to delete this flashcard?"),
+          content: Text("Are you sure you want to delete this course?"),
           actions: [
             TextButton(
               onPressed: () {
