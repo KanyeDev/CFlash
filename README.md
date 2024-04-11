@@ -17,7 +17,7 @@ CFlash can be downloaded [here](https://drive.google.com/file/d/1JelidkDPXtdzTEp
 
 ## Features
 
-- Resgister account
+- Register account
 - login
 - forget password recovery link
 - add new subject or course
@@ -28,7 +28,7 @@ CFlash can be downloaded [here](https://drive.google.com/file/d/1JelidkDPXtdzTEp
 - delete cards
 - add cards to favourite
 - remove from favourite
-- take test
+- take test[card animation using RIVE]
 - search cards and subjects
 - navigation drawer[Home, Search, Favourite, Profile, Contact]
   
