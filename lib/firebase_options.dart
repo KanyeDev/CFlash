@@ -17,10 +17,7 @@ import 'package:flutter/foundation.dart'
 class DefaultFirebaseOptions {
   static FirebaseOptions get currentPlatform {
     if (kIsWeb) {
-      throw UnsupportedError(
-        'DefaultFirebaseOptions have not been configured for web - '
-        'you can reconfigure this by running the FlutterFire CLI again.',
-      );
+      return web;
     }
     switch (defaultTargetPlatform) {
       case TargetPlatform.android:
@@ -51,7 +48,7 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyC1rG5MM4a-yOpLOHY8sRArgSNrQqGO6zI',
-    appId: '1:773154587079:android:b93db6bcd714405a6299e2',
+    appId: '1:773154587079:android:c3a93a0de153b4b46299e2',
     messagingSenderId: '773154587079',
     projectId: 'c-flash',
     storageBucket: 'c-flash.appspot.com',
@@ -59,11 +56,21 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyA-O1S1QYzaWIExj1qS-7N3XDTEYvhWx3c',
-    appId: '1:773154587079:ios:774358e83f975cc46299e2',
+    appId: '1:773154587079:ios:6ffb23f6dad35c9c6299e2',
     messagingSenderId: '773154587079',
     projectId: 'c-flash',
     storageBucket: 'c-flash.appspot.com',
     androidClientId: '773154587079-fvh4rpn0jjnfmlpisvsqitmn6613utfd.apps.googleusercontent.com',
     iosBundleId: 'com.example.cflash',
   );
+
+  static const FirebaseOptions web = FirebaseOptions(
+    apiKey: 'AIzaSyBCslD_lA9KWYGgwjxog2c_2OI7xHKVcJU',
+    appId: '1:773154587079:web:1eb14d02dd578dc46299e2',
+    messagingSenderId: '773154587079',
+    projectId: 'c-flash',
+    authDomain: 'c-flash.firebaseapp.com',
+    storageBucket: 'c-flash.appspot.com',
+  );
+
 }

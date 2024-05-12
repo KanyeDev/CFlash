@@ -1,5 +1,4 @@
 import 'package:cflash/core/utility/rive_utils.dart';
-import 'package:cflash/core/utility/toast.dart';
 import 'package:cflash/core/widgets/custom_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
@@ -152,34 +151,6 @@ class _EachCardPageState extends State<EachCardPage>
                           controller: controller,
                           itemCount: flashcards.length,
                           scrollDirection: Axis.horizontal,
-                          onPageChanged: (value) {
-                            if (text == "Next") {
-                              setState(() {
-                                textVisible = false;
-                                isQuestion = false;
-                                rateVisible = false;
-                              });
-
-                              startAnimation();
-
-                              if (ratingClicked == true) {
-                                flashcardService.rateFlashcard(
-                                    widget.subjectName,
-                                    getCurrentUser()!.uid,
-                                    flashCardID,
-                                    _rating.toInt());
-                              }
-
-                              Future.delayed(const Duration(milliseconds: 1000),
-                                  () {
-                                setState(() {
-                                  textVisible = true;
-                                  ratingClicked = false;
-                                  _rating = 0.0;
-                                });
-                              });
-                            }
-                          },
                           itemBuilder: (context, index) {
                             Flashcard flashcard = flashcards[index];
                             return Container(
@@ -227,62 +198,62 @@ class _EachCardPageState extends State<EachCardPage>
                                                 fit: BoxFit.fitWidth,
                                                 onInit: (artboard) {
                                                   StateMachineController
-                                                      controller = RiveUtils
-                                                          .getRiverController(
-                                                              artboard);
+                                                  controller = RiveUtils
+                                                      .getRiverController(
+                                                      artboard);
                                                   trigger = controller
-                                                          .findSMI("Trigger 1")
-                                                      as SMITrigger;
+                                                      .findSMI("Trigger 1")
+                                                  as SMITrigger;
                                                 },
                                               ),
                                             ),
                                             Padding(
                                               padding:
-                                                  const EdgeInsets.all(8.0),
+                                              const EdgeInsets.all(8.0),
                                               child: Center(
                                                 child: Padding(
                                                   padding:
-                                                      const EdgeInsets.only(
-                                                          bottom: 60.0),
+                                                  const EdgeInsets.only(
+                                                      bottom: 60.0),
                                                   child: SizedBox(
                                                     width:
-                                                        MediaQuery.of(context)
-                                                                .size
-                                                                .width -
-                                                            140,
+                                                    MediaQuery.of(context)
+                                                        .size
+                                                        .width -
+                                                        140,
                                                     height:
-                                                        MediaQuery.of(context)
-                                                                .size
-                                                                .width -
-                                                            250,
+                                                    MediaQuery.of(context)
+                                                        .size
+                                                        .width -
+                                                        250,
                                                     child: Center(
                                                       child:
-                                                          SingleChildScrollView(
+                                                      SingleChildScrollView(
                                                         child: Visibility(
                                                             visible:
-                                                                textVisible,
+                                                            textVisible,
                                                             child: Padding(
                                                               padding:
-                                                                  EdgeInsets
-                                                                      .only(
-                                                                left: 10,
-                                                                right: 10,
-                                                                    bottom: 10
+                                                              EdgeInsets
+                                                                  .only(
+                                                                  left: 10,
+                                                                  right: 10,
+                                                                  bottom: 10
                                                               ),
                                                               child: Text(
                                                                 isQuestion
                                                                     ? flashcard
-                                                                        .question
+                                                                    .question
                                                                     : flashcard
-                                                                        .answer,
+                                                                    .answer,
                                                                 textAlign:
-                                                                    TextAlign
-                                                                        .start,
+                                                                TextAlign
+                                                                    .start,
                                                                 style:
-                                                                    const TextStyle(
+                                                                const TextStyle(
                                                                   fontWeight:
-                                                                      FontWeight
-                                                                          .w400,
+                                                                  FontWeight
+                                                                      .w400,
                                                                   fontSize: 16,
                                                                 ),
                                                               ),

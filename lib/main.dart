@@ -1,8 +1,6 @@
 import 'package:cflash/features/login/presentation/bloc/login_bloc.dart';
-import 'package:cflash/features/login/presentation/pages/login_page.dart';
-import 'package:cflash/features/sign_up/presentation/bloc/sign_up_bloc.dart';
-import 'package:cflash/features/sign_up/presentation/pages/sign_up_page.dart';
-import 'package:cflash/features/subject/presentation/bloc/subject_bloc.dart';
+ import 'package:cflash/features/sign_up/presentation/bloc/sign_up_bloc.dart';
+ import 'package:cflash/features/subject/presentation/bloc/subject_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

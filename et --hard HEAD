@@ -1,0 +1,30 @@
+[33mcommit dc65bc42b9cac05933a6c86c5c9522d96d5cd668[m[33m ([m[1;36mHEAD -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m)[m
+Merge: beb3231 0242a91
+Author: unknown <adekanyekabir@gmail.com>
+Date:   Thu Apr 11 16:23:22 2024 +0100
+
+    Merge branch 'main' of https://github.com/ribak100/CFlash into main
+
+[33mcommit beb32317cb0236f04b0c7daadb572e626d66f51d[m
+Author: unknown <adekanyekabir@gmail.com>
+Date:   Thu Apr 11 15:59:50 2024 +0100
+
+    updated and removed the rive animation for card movement
+
+[33mcommit 0242a91f2bbaf49fb88859243cc5f55177fe0a08[m
+Author: ADEKANYE ABDULKABIR <41759937+KanyeDev@users.noreply.github.com>
+Date:   Thu Apr 11 15:51:00 2024 +0100
+
+    Update README.md
+
+[33mcommit a337b6f1eae5212abd6d11f2731c6acc8fb360d7[m
+Author: ADEKANYE ABDULKABIR <41759937+KanyeDev@users.noreply.github.com>
+Date:   Thu Apr 11 14:19:14 2024 +0100
+
+    Update README.md
+
+[33mcommit 34a69df0b2dedb270dc3777cd978645895d4b2a8[m
+Author: unknown <adekanyekabir@gmail.com>
+Date:   Wed Mar 20 17:04:29 2024 +0100
+
+    this is Cflash completed version 1.0
