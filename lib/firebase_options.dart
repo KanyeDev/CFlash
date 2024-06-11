@@ -47,16 +47,16 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyC1rG5MM4a-yOpLOHY8sRArgSNrQqGO6zI',
-    appId: '1:773154587079:android:c3a93a0de153b4b46299e2',
+    apiKey: 'key',
+    appId: 'id',
     messagingSenderId: '773154587079',
     projectId: 'c-flash',
     storageBucket: 'c-flash.appspot.com',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyA-O1S1QYzaWIExj1qS-7N3XDTEYvhWx3c',
-    appId: '1:773154587079:ios:6ffb23f6dad35c9c6299e2',
+    apiKey: 'key',
+    appId: 'id',
     messagingSenderId: '773154587079',
     projectId: 'c-flash',
     storageBucket: 'c-flash.appspot.com',
@@ -65,8 +65,8 @@ class DefaultFirebaseOptions {
   );
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyBCslD_lA9KWYGgwjxog2c_2OI7xHKVcJU',
-    appId: '1:773154587079:web:1eb14d02dd578dc46299e2',
+    apiKey: 'key',
+    appId: 'id',
     messagingSenderId: '773154587079',
     projectId: 'c-flash',
     authDomain: 'c-flash.firebaseapp.com',
